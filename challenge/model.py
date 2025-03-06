@@ -1,4 +1,3 @@
-import pandas as pd
 import pickle
 import logging
 import numpy as np
@@ -21,7 +20,7 @@ class DelayModel:
         _MODEL_FILE: File to save the model.
     """
 
-    _FEATURES = [
+    _TOP_FEATURES = [
         "OPERA_Latin American Wings",
         "MES_7",
         "MES_10",
@@ -33,8 +32,8 @@ class DelayModel:
         "OPERA_Sky Airline",
         "OPERA_Copa Air",
     ]
-    _MODEL_FILE = '../model/model.pkl'
-    _THRESHOLD = 15
+    _MODEL_FILE = 'model.pkl'
+    _THRESHOLD_IN_MINUTES = 15
 
     def __init__(self) -> None:
         """
@@ -94,8 +93,8 @@ class DelayModel:
             float: The time difference in minutes.
         """
         try:
-            fecha_o = datetime.strptime(row['SCH_START'], '%Y-%m-%d %H:%M:%S')
-            fecha_i = datetime.strptime(row['REAL_START'], '%Y-%m-%d %H:%M:%S')
+            fecha_o = datetime.strptime(row['Fecha-O'], '%Y-%m-%d %H:%M:%S')
+            fecha_i = datetime.strptime(row['Fecha-I'], '%Y-%m-%d %H:%M:%S')
             diff = (fecha_o - fecha_i).total_seconds() / 60
             return diff
         
