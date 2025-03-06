@@ -6,11 +6,11 @@ WORKDIR /app
 
 # Copying the requirements files into the container
 COPY requirements.txt requirements.txt
-COPY requirements-dev.txt requirements-dev.txt
+COPY requirements-test.txt requirements-test.txt
 
 # Install the required Python libraries
 RUN pip install -r requirements.txt
-RUN pip install -r requirements-dev.txt
+RUN pip install -r requirements-test.txt
 
 # Copy all files from the current directory to the working directory in the container
 COPY . .
