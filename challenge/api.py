@@ -1,3 +1,4 @@
+import uvicorn
 import logging
 from enum import Enum
 from typing import List
@@ -6,7 +7,7 @@ import pandas as pd
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 
-from .model import DelayModel
+from model import DelayModel
 
 logging.basicConfig(level=logging.INFO)
 
@@ -86,3 +87,6 @@ async def post_predict(batch: FlightsBatch) -> dict:
     except Exception as exc:
         logging.exception("Unexpected error in /predict.")
         raise HTTPException(status_code=500, detail=f"An internal error occurred: {exc}") from exc
+
+if __name__ == "__main__":
+    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)

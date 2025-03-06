@@ -103,7 +103,7 @@ class DelayModel:
             logging.error(f"Error calculating the difference: {e}")
             return np.nan
 
-    def preprocess(self, data: pd.DataFrame, target_column: str = None) -> Union(Tuple[pd.DataFrame, pd.DataFrame], pd.DataFrame):
+    def preprocess(self, data: pd.DataFrame, target_column: str = None) -> Union[Tuple[pd.DataFrame, pd.DataFrame], pd.DataFrame]:
         """
         Prepare raw data for training or predict.
 
@@ -124,7 +124,7 @@ class DelayModel:
         ], axis=1)
     
         # Ensure we only keep the top features
-        df_encoded = df_encoded.reindex(columns=self._TOP_FEATURES, fill_value=0)
+        df_encoded = df_encoded.reindex(columns=self._FEATURES, fill_value=0)
 
         # If target column is provided, return features and target
         if target_column:
