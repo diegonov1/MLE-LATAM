@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.2
-FROM python:3.13.2-slim
+FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app
