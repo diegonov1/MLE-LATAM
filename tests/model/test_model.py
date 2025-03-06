@@ -1,3 +1,4 @@
+import os # Added to reading path
 import unittest
 import pandas as pd
 
@@ -27,8 +28,12 @@ class TestModel(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # Ensures the path is relative to the position of the current file
+        DATA_PATH = os.path.join(BASE_DIR, "..", "..", "data", "data.csv")
+
         self.model = DelayModel()
-        self.data = pd.read_csv(filepath_or_buffer="../data/data.csv")
+        self.data = pd.read_csv(DATA_PATH)
         
 
     def test_model_preprocess_for_training(
