@@ -133,7 +133,7 @@ class DelayModel:
                 data["delay"] = np.where(
                     data["min_diff"] > self._THRESHOLD_IN_MINUTES, 1, 0
                 )
-            target = data[target_column].astype(int)
+            target = pd.DataFrame(data[target_column].astype(int), columns=[target_column])
             return df_encoded, target
 
         return df_encoded
@@ -147,8 +147,8 @@ class DelayModel:
             target (pd.DataFrame): target.
         """
         # Class imbalance handling
-        n_y0 = (target == 0).sum()
-        n_y1 = (target == 1).sum()
+        n_y0 = (target == 0).sum().sum()
+        n_y1 = (target == 1).sum().sum()
 
         if n_y1 == 0:
             logging.error("No positive samples in target, training aborted.")
@@ -158,7 +158,8 @@ class DelayModel:
 
         # Train the logistic regression model
         self._model = LogisticRegression(class_weight={0: 1, 1: scale}, random_state=42)
-        self._model.fit(features, target)
+        target_series = target.iloc[:, 0]
+        self._model.fit(features, target_series)
 
         # Flag model as trained
         self._is_trained = True  
