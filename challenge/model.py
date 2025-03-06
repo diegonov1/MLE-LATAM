@@ -123,7 +123,7 @@ class DelayModel:
         ], axis=1)
     
         # Ensure we only keep the top features
-        df_encoded = df_encoded.reindex(columns=self._FEATURES, fill_value=0)
+        df_encoded = df_encoded.reindex(columns=self._TOP_FEATURES, fill_value=0)
 
         # If target column is provided, return features and target
         if target_column:
