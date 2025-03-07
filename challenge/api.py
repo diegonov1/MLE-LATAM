@@ -1,5 +1,4 @@
 import logging
-from enum import Enum
 from typing import List
 
 import pandas as pd
@@ -14,17 +13,35 @@ app = FastAPI()
 
 delay_model = DelayModel()
 
+VALID_AIRLINES = {
+        "American Airlines",
+        "Air Canada",
+        "Air France",
+        "Aeromexico",
+        "Aerolineas Argentinas",
+        "Austral",
+        "Avianca",
+        "Alitalia",
+        "British Airways",
+        "Copa Air",
+        "Delta Air",
+        "Gol Trans",
+        "Iberia",
+        "K.L.M.",
+        "Qantas Airways",
+        "United Airlines",
+        "Grupo LATAM",
+        "Sky Airline",
+        "Latin American Wings",
+        "Plus Ultra Lineas Aereas",
+        "JetSmart SPA",
+        "Oceanair Linhas Aereas",
+        "Lacsa"
+    }
+
 # ######################
 #    Pydantic Models
 # ######################
-
-class FlightType(str, Enum):
-    """
-    Enum check for the type of flight.
-    """
-    I = "I"  # International
-    N = "N"  # National
-
 
 class FlightData(BaseModel):
     """
@@ -35,8 +52,8 @@ class FlightData(BaseModel):
     OPERA: str
     # MES must be an integer
     MES: int
-    # TIPOVUELO must be either 'I' or 'N'
-    TIPOVUELO: FlightType
+    # TIPOVUELO must a string
+    TIPOVUELO: str
 
 
 class FlightsBatch(BaseModel):
@@ -68,7 +85,7 @@ async def post_predict(batch: FlightsBatch) -> dict:
             raise HTTPException(status_code=400, detail="MES must be 1–12.")
         if flight.TIPOVUELO not in ["I", "N"]:
             raise HTTPException(status_code=400, detail="TIPOVUELO must be 'I' or 'N'.")
-        if flight.OPERA not in ["Aerolineas Argentinas", "SomeOtherKnownAirline"]:
+        if flight.OPERA not in VALID_AIRLINES:
             raise HTTPException(status_code=400, detail="Unknown airline.")
 
     try:
