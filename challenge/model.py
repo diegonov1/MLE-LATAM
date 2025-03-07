@@ -32,7 +32,7 @@ class DelayModel:
         "OPERA_Sky Airline",
         "OPERA_Copa Air",
     ]
-    _MODEL_FILE = 'model.pkl'
+    _MODEL_FILE = 'challenge/model.pkl'
     _THRESHOLD_IN_MINUTES = 15
 
     def __init__(self) -> None:
