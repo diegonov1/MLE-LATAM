@@ -115,4 +115,4 @@ async def post_predict(batch: FlightsBatch) -> dict:
         raise HTTPException(status_code=500, detail=f"An internal error occurred: {exc}") from exc
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("api:app", host="0.0.0.0", port=8080, reload=True)
