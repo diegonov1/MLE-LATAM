@@ -94,7 +94,7 @@ async def post_predict(batch: FlightsBatch) -> dict:
             {
                 "OPERA": flight.OPERA,
                 "MES": flight.MES,
-                "TIPOVUELO": flight.TIPOVUELO.value
+                "TIPOVUELO": flight.TIPOVUELO
             }
             for flight in batch.flights
         ]
