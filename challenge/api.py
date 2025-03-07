@@ -63,6 +63,15 @@ async def post_predict(batch: FlightsBatch) -> dict:
     Accepts flight data, transforms it using the DelayModel,
     and returns the predictions (0 = On-time, 1 = Delayed).
     """
+
+    for flight in batch.flights:
+        if flight.MES < 1 or flight.MES > 12:
+            raise HTTPException(status_code=400, detail="MES must be 1–12.")
+        if flight.TIPOVUELO not in ["I", "N"]:
+            raise HTTPException(status_code=400, detail="TIPOVUELO must be 'I' or 'N'.")
+        if flight.OPERA not in ["Aerolineas Argentinas", "SomeOtherKnownAirline"]:
+            raise HTTPException(status_code=400, detail="Unknown airline.")
+
     try:
         data = [
             {
@@ -78,7 +87,7 @@ async def post_predict(batch: FlightsBatch) -> dict:
 
         predictions = delay_model.predict(X)
 
-        return {"predictions": predictions}
+        return {"predict": predictions}
 
     except ValueError as val_err:
         logging.error("ValueError encountered in /predict: %s", str(val_err))
